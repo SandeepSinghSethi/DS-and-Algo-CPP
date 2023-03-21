@@ -49,7 +49,7 @@ namespace CH7{
 		int i = l-1;
 		for(int j = l;j<=r-1;j++)
 		{
-			if(arr[j] <= x)
+			if(arr[j] <=	 x)
 			{
 				i++;
 				std::swap(arr[j],arr[i]);
@@ -68,6 +68,47 @@ namespace CH7{
 			qck(arr,left,p-1);
 			qck(arr,p+1,right);
 		}	
+	}
+
+	int random_num1(int l , int r)
+	{
+		unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+		std::mt19937_64 generator(seed);
+		std::uniform_int_distribution<int> distribution(l,r);
+		return distribution(generator);
+	}
+
+	int random_num2(int l , int r)
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int> dis(l,r);
+		return dis(gen);
+	}
+
+	template <typename T>
+	int randomized_partition(QCK<T>& arr, int  l , int r)
+	{
+		int i = random_num2(l,r);
+		std::swap(arr[r],arr[i]);
+		return partition(arr,l,r);
+	}
+
+	template <typename T>
+	void rand_qck(QCK<T>& arr,int l , int r)
+	{
+		if(l<r)
+		{
+			int p = randomized_partition(arr,l,r);
+			rand_qck(arr,l,p-1);
+			rand_qck(arr,p+1,r);
+		}
+	}
+
+	template <typename T>
+	void randomized_quicksort(QCK<T>&arr)
+	{
+		rand_qck(arr,arr.left,arr.right);		
 	}
 
 	template <typename T>
