@@ -117,6 +117,50 @@ namespace CH7{
 		qck(arr,arr.left,arr.right);
 	}
 
+	template <typename T>
+	int hoare_partition(QCK<T>& arr,int left,int right)
+	{
+		int pivot = arr[left],i = left+1,j = right;
+
+		do
+		{
+			while(arr[i] <= pivot)
+			{
+				i++;
+			}
+			while(arr[j] > pivot)
+			{
+				j--;
+			}
+			if(i<j)
+			{
+				std::swap(arr[i],arr[j]);
+			}
+
+		}while(i<j);
+
+		std::swap(arr[left],arr[j]);
+		return j;
+
+	}
+
+	template <typename T>
+	void hp_qck(QCK<T>& arr,int left,int right)
+	{
+		if(left<right)
+		{
+			int p = hoare_partition(arr,left,right);
+			hp_qck(arr,left,p-1);
+			hp_qck(arr,p+1,right);
+		}
+	}
+
+	template <typename T>
+	void hoare_partition_quicksort(QCK<T>& arr)
+	{
+		hp_qck(arr,arr.left,arr.right);
+	}
+
 } // namespace CH7
 } // namespace CLRS
 #endif
