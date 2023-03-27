@@ -87,18 +87,12 @@ namespace CH8{
 	}
 
 	template <typename T>
-	void counting_sort(CT<T>& arr)
+	void ct_sort(CT<T>& arr,CT<T>& B,CT<T>& C,T max)
 	{
-		int max = getmax(arr);
-		CT<int> B = {0};
-		CT<int> C = {0};
-
 		for(int i= 0;i<=max;i++)
 			B[i] = 0;
 
-		B.arrsize = max+1;
-		C.arrsize = arr.arrsize;
-
+		
 		// setting array to all zero till size max
 		for(int j = 0;j<arr.arrsize;j++) 
 			B[arr[j]]++;
@@ -119,7 +113,16 @@ namespace CH8{
 		{
 			arr[m] = C[m];
 		}
+	}
 
+	template <typename T>
+	void counting_sort(CT<T>& arr)
+	{
+		T max =getmax(arr);
+		CT<T> B(max+1,0);
+		CT<T> C(arr.arrsize);
+		
+		ct_sort(arr,B,C,max);
 	}
 
 }	// namespace CH8
