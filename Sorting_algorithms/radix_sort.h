@@ -81,11 +81,6 @@ namespace CH8_2
 	T getmax(RDX<T>& arr)
 	{
 		RDX<T> test = arr;
-
-		for(int i = 0;i<test.arrsize;i++)
-		{
-			test[i] = test[i] %10;
-		}
 		return build_max_heap(test);
 	}
 
@@ -124,7 +119,6 @@ namespace CH8_2
 	template <typename T>
 	void radix_sort(RDX<T>& arr)
 	{
-		T d = getmax(arr);		// the largest value in the x's place so that we can provide the value d to mark the largest value 
 		int m = getNumPlaces(arr);	// to set the value m upto the num places in the array , for 100k m=6 ,etc,etc, ....
 
 		for(int i = 1;i<=m;i++)
@@ -138,6 +132,7 @@ namespace CH8_2
 			{
 				digits[j] = (arr[j] / (T)pow(10 , (i-1))) % 10;
 			}
+			T d = getmax(digits); // to get the max value in the array digits so that , we can get d for counting sort , as counting sort operates on the array of size d <-(largest number in the array)
 			counting_sort(arr,B,digits,d);	// performing counting sort on an array size n <=10 , because in a place value of a number there can only be 10 numbers (0->9)
 			arr = B;
 
