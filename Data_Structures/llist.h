@@ -14,15 +14,6 @@ public:
 };
 
 template <typename T>
-class DBNode
-{
-public:
-	T data;
-	DBNode<T>* next = nullptr;
-	DBNode<T>* prev = nullptr;
-};
-
-template <typename T>
 class LinkedL
 {
 private:
@@ -348,6 +339,16 @@ public:
 };
 
 template <typename T>
+class DBNode
+{
+public:
+	T data;
+	DBNode<T>* next = nullptr;
+	DBNode<T>* prev = nullptr;
+};
+
+
+template <typename T>
 class DBList 
 {
 private:
@@ -505,24 +506,10 @@ public:
 		temp->next= t2;
 	}
 
-	void insertstart(T data)
-	{
-		DBNode<T>* temp = new DBNode<T>();
-		temp->data = data;
-		temp->prev = nullptr;
-		temp->next = head;
-		head= temp;
-		head->next->prev = temp;
-		// temp->data = data;
-		// temp->next = head;
-		// temp->prev = nullptr;
-		// head->prev = temp;
-		// head = temp;
-	}
 
 	void insertend(T data)
 	{
-		if(head == nullptr && tail == nullptr)
+		if(size == 0)
 		{
 			insertstart(data);
 			return;
@@ -536,8 +523,22 @@ public:
 		{
 			ptr = ptr->next;
 		}
-		temp->prev= ptr;
 		ptr->next = temp;
+		temp->prev = ptr;
+	}
+
+	void insertstart(T data)
+	{
+		DBNode<T>* temp = new DBNode<T>();
+		temp->data = data;
+		temp->next = head;
+		temp->prev = nullptr;
+
+		if(head != nullptr)
+		{
+			head->prev = temp;
+		}
+		head = temp;
 	}
 
 	void insert()
@@ -663,7 +664,7 @@ public:
 	void updtail()
 	{
 		DBNode<T>* temp = head;
-		if(temp == nullptr){
+		if(head == nullptr){
 			tail = nullptr;
 			return;
 		}
@@ -672,12 +673,7 @@ public:
 		{
 			temp = temp->next;
 		}
-		if(temp==head)
-		{
-			tail->prev=head;
-			head->next=tail;
-			return;
-		}
+	
 		tail = temp;
 	}
 
