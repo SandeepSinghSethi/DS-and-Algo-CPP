@@ -32,10 +32,11 @@ public:
 		uniform_real_distribution<double> dis(0.0,1.0);
 		A = dis(gen);
 		goldenratio = 1.6180339887;
-		uniform_int_distribution<int> c(0,2);
+		
+		srand(static_cast<unsigned int>(time(nullptr)));
 		
 		for(int i = 1 ;i<100;i++)
-			choice = c(gen);	
+			choice = rand() % 3;	
 		cout << "INDEX : " << choice << " is getting used " << endl;
 	};
 
