@@ -3,6 +3,9 @@
 #pragma once
 
 #include<bits/stdc++.h>
+// #ifdef HAS_OPENSSL
+// 	#include<openssl/sha.h>	
+// #endif
 using namespace std;
 
 class HashTB 
@@ -27,16 +30,17 @@ private:
 
 public:
 	HashTB() : table(TABLESZ) {
-		random_device rd;
-		mt19937 gen(rd());
-		uniform_real_distribution<double> dis(0.0,1.0);
-		A = dis(gen);
+		// random_device rd;
+		// mt19937 gen(rd());
+		// uniform_real_distribution<double> dis(0.0,1.0);
+		srand(static_cast<unsigned int>(time(nullptr)));
+		A = static_cast<double>(rand()) / RAND_MAX;
 		goldenratio = 1.6180339887;
 		
 		srand(static_cast<unsigned int>(time(nullptr)));
 		
 		for(int i = 1 ;i<100;i++)
-			choice = rand() % 3;	
+			choice = rand() % 4;	
 		cout << "INDEX : " << choice << " is getting used " << endl;
 	};
 
@@ -90,6 +94,46 @@ public:
 		return index;
 	}
 
+	int modpmodm(int sum)
+	{
+		// this type of hashing is known as universal hashing method , and consists of a set of hash functions which create universally independent hash results , the probability of collision of two hashes is atmost (1/TABLESZ) , 
+		// H = h(k) { ((ak + b) % p) % TABLESZ  } for any random a in range 0->(p-1) and for any b in range 1->(p-1) 
+		// there are total p(p-1) hash functions in this single hash family.
+
+		auto p = pow(2,32);
+		p = (goldenratio * p) - p;
+
+		srand(static_cast<unsigned int>(time(nullptr)));
+
+		unsigned int a =  rand() % static_cast<unsigned int>(p-1);	// a E (0 ... (p-1))
+		unsigned int b = (rand() % static_cast<unsigned int>(p-2)) + 1; // b E (1 ... (p-1))
+
+		unsigned int k = sum;
+
+		unsigned index = ((a*k + b) % static_cast<unsigned int>(p)) % TABLESZ;
+
+		return index;
+	}
+
+
+	// commented for if openssl not installed , it will generate errors;
+	// string sha256(const string& key)
+	// {
+	// 	unsigned char hash[SHA256_DIGEST_LENGTH];
+	// 	SHA256_CTX sha256;
+	// 	SHA256_Init(&sha256);
+	// 	SHA256_Update(&sha256,key.c_str(),key.length());
+	// 	SHA256_Final(hash,&sha256);
+
+	// 	stringstream ss;
+	// 	for(int i= 0;i<SHA256_DIGEST_LENGTH;++i)
+	// 	{
+	// 		ss << hex << setw(2) << setfill('0') << static_cast<int>(hash[i]);
+	// 	}
+
+	// 	return ss.str();
+	// }
+
 
 	int hashFunction(const string& key)
 	{
@@ -111,12 +155,21 @@ public:
 		case 2:
 			index =multiplicative_shift_hashing(sum);
 			break;
+		case 3:
+			index = modpmodm(sum);
+			break;
+		// case 4:
+		// 	string hashval = sha256(key);
+		// 	unsigned long long hash = stoull(hashval,nullptr,16);
+		// 	index = hash % TABLESZ;
+		// 	break;
 		default:
 			break;
-
 		}
-
-
+		// to print the hash of the index
+		//
+		// bitset<sizeof(int) * 8> binary(index);
+		// cout << index << ":" << binary << endl;
 		return index;
 
 		
