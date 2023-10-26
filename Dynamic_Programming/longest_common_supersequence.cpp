@@ -75,8 +75,8 @@ int lcs(string s1,string s2,int n , int m)
 
 int main(int argc, char const *argv[])
 {
-	string S1 = "babab";
-	string S2 = "babba";
+	string S1 = "heap";
+	string S2 = "pea";
 	int n = S1.size();
 	int m = S2.size();
 
