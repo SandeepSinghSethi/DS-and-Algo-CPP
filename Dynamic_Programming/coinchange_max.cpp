@@ -117,7 +117,7 @@ int main(int argc, char const *argv[])
 
 	int res = coin_max(arr,n,sum);
 	cout << res << endl;
-	res = min_count(arr,n,4);	
-	cout << res << endl;
+	// res = min_count(arr,n,sum);	
+	// cout << res << endl;
 	return 0;
 }
