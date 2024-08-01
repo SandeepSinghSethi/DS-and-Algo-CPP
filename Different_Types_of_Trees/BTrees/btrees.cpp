@@ -24,6 +24,7 @@ int main(int argc, char const *argv[])
     t.traverse();
     cout << endl;
 
+
     string inkey;
 
     while(true)

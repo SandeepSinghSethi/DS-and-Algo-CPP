@@ -91,7 +91,6 @@ void BTNode::traversal(){
     for(i = 0;i<n;i++)
     {
         if(leaf == false){
-            cout << endl;
             C[i]->traversal();
         }
         cout << keys[i] << " " ;
@@ -234,7 +233,7 @@ int BTNode::findkey(int k)
 
 void BTNode::removeFromLeaf(int i)
 {
-    for(int k = i+1;k<n;k++)
+    for(int k = i+1;k<n;++k)
         keys[k-1] = keys[k];
 
     n--;
@@ -289,7 +288,7 @@ void BTNode::merge(int i)
 
 
     //* this does copy the siblings keys to childs keys hence allowing us to remove sibling
-    for(int j = 0;j<sibling->n;j++)
+    for(int j = 0;j<sibling->n;++j)
     {
         child->keys[j+t] = sibling->keys[j];
     }
@@ -298,7 +297,7 @@ void BTNode::merge(int i)
     // if sibling have some child
     if(!child->leaf)
     {
-        for(int j = 0;j<=sibling->n;j++)
+        for(int j = 0;j<=sibling->n;++j)
         {
             child->C[j+t] = sibling->C[j];
         }
@@ -306,17 +305,17 @@ void BTNode::merge(int i)
 
     // we need to remember that we stored current keys[i] at child's last key so we need to move further keys in the current node one step before also with the childs as well
 
-    for(int j = i+1;j<n;j++)
+    for(int j = i+1;j<n;++j)
     {
         keys[j-1] = keys[j];
     }
 
-    for(int j = i+2;j<=n;j++)
+    for(int j = i+2;j<=n;++j)
     {
         C[j-1] = C[j];
     }
 
-    child->n += sibling->n;
+    child->n += sibling->n+1;
     n--;
     delete(sibling);
     return;
@@ -325,18 +324,15 @@ void BTNode::merge(int i)
 
 void BTNode::removeFromNonLeaf(int i)
 {
-    BTNode *c0 = C[i];
-    BTNode *c1 = C[i+1];
-
     int k = keys[i];
 
-    if(c0->n >= t)
+    if(C[i]->n >= t)
     {
         int pred = getPred(i);
         keys[i] = pred;
         C[i]->remove(pred);
     }
-    else if(c1->n >= t)
+    else if(C[i+1]->n >= t)
     {
         int succ = getSucc(i);
         keys[i] = succ;
@@ -402,12 +398,12 @@ void BTNode::brwFromPrev(int i)
     BTNode *child = C[i];
     BTNode *sibling = C[i-1];
 
-    for(int j = child->n-1;j>=0;j--)
+    for(int j = child->n-1;j>=0;--j)
         child->keys[j+1] = child->keys[j];
 
     if(!child->leaf)
     {
-        for(int j = child->n;j>=0;j--)
+        for(int j = child->n;j>=0;--j)
             child->C[j+1] =  child->C[j];
     }
 
@@ -434,14 +430,14 @@ void BTNode::brwFromNext(int i)
 
     keys[i] = sibling->keys[0];
 
-    for(int j = 1;j<sibling->n;j++)
+    for(int j = 1;j<sibling->n;++j)
     {
-        sibling->keys[j-1] = sibling->keys[i];
+        sibling->keys[j-1] = sibling->keys[j];
     }
 
     if(!sibling->leaf)
     {
-        for(int j = 1;j<=sibling->n;j++)
+        for(int j = 1;j<=sibling->n;++j)
             sibling->C[j-1] = sibling->C[j];
     }
 
@@ -474,7 +470,7 @@ void BTNode::remove(int k)
             return;
         }
 
-        bool flag = ((i==n) ? true:false);
+        bool flag = (i==n) ;//? true:false);
 
         //? if the last child has less than t keys then we stabilize the child keys with its siblings making child and sibling have t keys;
         if(C[i]->n < t)
