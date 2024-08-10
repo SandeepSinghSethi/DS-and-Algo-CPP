@@ -285,7 +285,7 @@ void BTNode::merge(int i)
 
     //* this is used to store the current key at keys[i] to child's last key
     child->keys[t-1] = keys[i];
-
+    child->n++;
 
     //* this does copy the siblings keys to childs keys hence allowing us to remove sibling
     for(int j = 0;j<sibling->n;++j)
@@ -315,7 +315,7 @@ void BTNode::merge(int i)
         C[j-1] = C[j];
     }
 
-    child->n += sibling->n+1;
+    child->n += sibling->n;
     n--;
     delete(sibling);
     return;

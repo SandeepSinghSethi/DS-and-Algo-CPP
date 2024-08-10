@@ -2,7 +2,16 @@
 
 int main(int argc, char const *argv[])
 {
-    BTree t(2);
+    int load = 2;
+    if(load < 2)
+    {
+        cout << "Cant have less than 2 keys in a BTree Node" << endl;
+        return 0;
+    }
+    BTree t(load);
+
+    // for(int i = 0;i<=1000;i++)
+    //     t.insert((random() % 1024));
 
     // for(int i = 1;i<=15;i++)
     // {
