@@ -49,6 +49,12 @@ void DisJSet::makeset(int a)
 
 void DisJSet::Union(Item *i1, Item *i2)
 {
+    Node *xrep = i1->hd;
+    Node *yrep = i2->hd;
+
+    if(xrep == yrep)
+        return;
+
     Node* cur = i2->hd;
     while(cur != 0)
     {
@@ -86,6 +92,16 @@ void DisJSet::print()
     }
 }
 
+int getrandom(int min, int max)
+{
+    random_device rd;
+    mt19937 gen(rd());
+
+    uniform_int_distribution<> distr(min,max);
+
+    return distr(gen);
+}
+
 int main(int argc, char const *argv[])
 {
     DisJSet obj;    
@@ -95,6 +111,11 @@ int main(int argc, char const *argv[])
     {
         obj.makeset(i);
     }
+
+    // for(int i = 0;i<100000;i++)
+    // {
+    //     obj.Union(obj.find(getrandom(1,99999)),obj.find(getrandom(1,99999)));
+    // }
 
     obj.Union(obj.find(4),obj.find(6));
     obj.Union(obj.find(4),obj.find(9));

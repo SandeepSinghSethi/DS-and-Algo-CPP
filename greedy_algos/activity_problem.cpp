@@ -88,7 +88,7 @@ bool cmp(Time &a, Time &b ){
 
 int main(int argc, char const *argv[])
 {
-	vector<Time> activity= {{1,4},{3,5},{0,6},{5,7},{3,9},{5,9},{6,10},{7,11},{8,12},{2,14},{12,16}};
+	vector<Time> activity= {{1,4},{3,5},{0,6},{5,7},{3,9},{6,10},{5,9},{7,11},{8,12},{2,14},{12,16}};
 	sort(activity.begin(),activity.end(),cmp);
 	print(activity);
 	solve(activity);//,0,activity.size()-1);
