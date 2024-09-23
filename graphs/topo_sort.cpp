@@ -48,6 +48,7 @@ private:
         time++;
         u->f = time;
         u->color = BLACK;
+        cout << "Vertex : " << u->data << " ; d = " << u->d << " and f = " << u->f  << endl;
     }
 
 public:
@@ -132,18 +133,23 @@ vector<int> Graph::topological_sort()
 int main(int argc, char const *argv[])
 {
     Graph g;
-    for(int i = 0 ; i<6;i++)
+    for(int i = 1 ; i<8;i++)
         g.makeset(i);
 
-    g.addedge(1, 2);
-    g.addedge(2, 0);
-    g.addedge(0, 3);
-    g.addedge(4, 5);
-    // g.addedge(0 ,1);
     // g.addedge(1, 2);
-    // g.addedge(3, 1);
-    // g.addedge(3, 2);
-
+    // g.addedge(2, 0);
+    // g.addedge(0, 3);
+    // g.addedge(4, 5);
+    g.addedge(1, 2);
+    g.addedge(2, 3);
+    g.addedge(3, 4);
+    g.addedge(4, 1);
+    g.addedge(2, 4);
+    g.addedge(3, 6);
+    g.addedge(4, 5);
+    g.addedge(5, 6);
+    g.addedge(6, 7);
+    g.addedge(7, 5);
     g.dfs();
 
     vector<int> topo_list;
