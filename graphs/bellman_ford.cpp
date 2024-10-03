@@ -37,6 +37,7 @@ public:
     Item *find(int i);
     pair<bool,vector<pair<int,pair<int,int>>>> BellmanFord(int source);
     void addedge(int s,int d , int w);
+    void printPath(Vertex *v);
 };
 
 void BellFord::makeset(int i)
@@ -103,6 +104,20 @@ pair<bool,vector<pair<int,pair<int,int>>>> BellFord::BellmanFord(int source)
             return {false,{}};
     }
 
+    for(const auto&entry : nodeaddr)
+    {
+        Vertex *v = nodeaddr[entry.first];
+        cout << "[V] : " << v->id << " : [W] : " << v->data << " : [P] : ";
+        if(v->data == INT_MAX){
+            cout << "no path";
+        }
+        else
+        {
+            printPath(v);
+        }
+        cout << endl;
+    }
+
     for(const auto&node : nodeaddr)
     {
         Vertex* v = node.second;
@@ -117,6 +132,16 @@ pair<bool,vector<pair<int,pair<int,int>>>> BellFord::BellmanFord(int source)
     }
 
     return {true,visitedOrder};
+}
+
+void BellFord::printPath(Vertex *v)
+{
+    if(v->pi == NULL){
+        cout << v->data;
+        return;
+    }
+    printPath(v->pi);
+    cout << "-> " << v->id;        
 }
 
 int main(int argc, char const *argv[])

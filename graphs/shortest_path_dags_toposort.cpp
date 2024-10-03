@@ -9,7 +9,7 @@ class Item;
 
 class Vertex {
 public:
-    int data,color;
+    int data,color,id;
     int d,f;
     Vertex *next,*pi;
     Item *itemPtr;
@@ -55,7 +55,8 @@ public:
     void dfs();
     void addedge(int s , int d , int w);
     vector<int> topo_sort();
-    void spdag();
+    void spdag(int src);
+    void printPath(Vertex *v);
 };
 
 void SPDag::makeset(int data)
@@ -67,6 +68,7 @@ void SPDag::makeset(int data)
     nodeaddr[data] = newitem->hd;
 
     newitem->hd->data = data;
+    newitem->hd->id = data;
     newitem->hd->d = 0;
     newitem->hd->f = 0;
     newitem->hd->color = WHITE;
@@ -119,7 +121,7 @@ vector<int> SPDag::topo_sort()
     return retlist;
 }
 
-void SPDag::spdag()
+void SPDag::spdag(int src)
 {
     dfs();
     vector<int> topolist = topo_sort();
@@ -129,7 +131,7 @@ void SPDag::spdag()
         dist[entry.first] = INT_MAX;
     
 
-    int source = 0;
+    int source = src;
     dist[source] = 0;
 
     for(int u : topolist)
@@ -145,6 +147,7 @@ void SPDag::spdag()
                         if(dist[v] > dist[u] + edge.weight)
                         {
                             dist[v] = dist[u] + edge.weight;
+                            nodeaddr[v]->pi = nodeaddr[u];
                         }
                     }
                 }
@@ -156,8 +159,34 @@ void SPDag::spdag()
     {
         cout << "[V] : " << entry.first << " : [W] : " << entry.second << endl;
     }
+    cout <<endl;
 
+    for(const auto&entry : dist)
+    {
+        Vertex *v = nodeaddr[entry.first];
+        cout << "[V] : " << entry.first << " : [W] : " << entry.second  << " : [P] : ";
+        if(entry.second == INT_MAX){
+            cout << "no path" ;
+        }
+        else
+        {
+            printPath(v);
+        }
+        cout << endl;
 
+    }
+
+}
+
+void SPDag::printPath(Vertex *u)
+{
+    if(u->pi == NULL)
+    {
+        cout << u->data ;
+        return;
+    }
+    printPath(u->pi);
+    cout << "-> " << u->id ;
 }
 
 int main(int argc, char const *argv[])
@@ -177,6 +206,6 @@ int main(int argc, char const *argv[])
     g.addedge(4,2,1);
     g.addedge(2,3,3);
 
-    g.spdag();
+    g.spdag(0);
     return 0;
 }
