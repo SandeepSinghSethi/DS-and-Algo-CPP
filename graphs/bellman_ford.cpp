@@ -37,7 +37,7 @@ public:
     Item *find(int i);
     pair<bool,vector<pair<int,pair<int,int>>>> BellmanFord(int source);
     void addedge(int s,int d , int w);
-    void printPath(Vertex *v);
+    void printPath(Vertex *v);  
 };
 
 void BellFord::makeset(int i)
@@ -69,6 +69,7 @@ pair<bool,vector<pair<int,pair<int,int>>>> BellFord::BellmanFord(int source)
 {
     vector<pair<int ,pair<int,int>>> visitedOrder;
 
+    // initialize single source
     for(const auto&node : nodeaddr)
     {
         node.second->pi = NULL;
@@ -85,7 +86,8 @@ pair<bool,vector<pair<int,pair<int,int>>>> BellFord::BellmanFord(int source)
             Vertex *u = nodeaddr[edge.src];
             Vertex *v = nodeaddr[edge.dest];
             int weight = edge.weight;
-
+            
+            //relaxation procedure
             if(u->data != INT_MAX && v->data > u->data + weight)
             {
                 v->data = u->data + weight;

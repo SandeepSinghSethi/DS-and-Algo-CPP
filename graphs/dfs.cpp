@@ -100,6 +100,11 @@ void Graph::dfs()
     }
     int time = 0;
 
+    for(const auto&node: nodeaddr)
+    {
+        cout << node.first << endl;
+    }
+
     for(const auto&node : nodeaddr)
     {
         Vertex *ptr = node.second;
