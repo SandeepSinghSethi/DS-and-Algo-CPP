@@ -36,6 +36,7 @@ public:
 
     void addedge(int s ,int d , int w);
     void slowSolve(vector<vector<int>> &W,vector<vector<int>> &L_0,int n);
+    void fastSolve(vector<vector<int>> &W,int n);
     void solve();
     void printMatrix();
     void printPath();
@@ -83,11 +84,34 @@ void SLOW_APSP::slowSolve(vector<vector<int>> &W,vector<vector<int>> &L_0,int n)
    L_final = L;
 }
 
+void SLOW_APSP::fastSolve(vector<vector<int>> &W,int n)
+{
+    vector<vector<int>> L = W;
+    vector<vector<int>> M;
+
+    for(int r = 0;r<n;r++)
+    {
+        M.resize(n,vector<int>(n,INT_MAX));
+
+        extended_shortest_path(L,L,M,n);
+
+        r = 2*r;
+
+        L = M;
+    }
+    L_final = L;
+}
+
 void SLOW_APSP::solve()
 {
     W = adjMatrix;
     L_0 = adjMatrix;
+    cout << "Slow apsp: " << endl;
     slowSolve(W,L_0,vertices);
+    printMatrix();
+
+    cout << "\n\nFast apsp: " << endl;
+    fastSolve(W,vertices);
     printMatrix();
     
 }
