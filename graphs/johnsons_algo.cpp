@@ -153,7 +153,7 @@ vector<int> Johnson_Algo::Dijkstra(int source)
         pq.pop();
 
         Vertex *u_id = nodeaddr[u];
-        // cout << u.src << " : " << u.dest << endl;
+        // cout <<  u.src << " : " << u.dest << endl;
         for(const auto&edge : alt_edges){
             if(edge.src == u_id->id)
             {
@@ -264,7 +264,7 @@ void Johnson_Algo::solve()
         cout << endl;
         for(int v = 1;v<=vertices;v++)
         {
-            finalMatrix[u][v] = D[v] + bf_h[v] - bf_h[u];
+            finalMatrix[u][v] = D[v] + bf_h[v] - bf_h[u];// reweighting back again to original
         }
     }
 
